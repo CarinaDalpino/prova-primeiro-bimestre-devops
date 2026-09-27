@@ -1,0 +1,25 @@
+=== Teste do CRUD completo (persistindo em PostgreSQL via Docker Compose) ===
+===== HEALTH =====
+{"status":"healthy","db":"connected"}
+
+===== CREATE (POST /reservas) =====
+{"id":1,"cliente":"Maria Silva","data":"2026-10-15","status":"confirmada"}
+{"id":2,"cliente":"Joao Santos","data":"2026-10-16","status":"pendente"}
+-- validacao (sem cliente, deve dar 400):
+{"erro":"Os campos 'cliente' e 'data' sao obrigatorios."}
+
+===== READ todas (GET /reservas) =====
+[{"id":1,"cliente":"Maria Silva","data":"2026-10-15","status":"confirmada"},{"id":2,"cliente":"Joao Santos","data":"2026-10-16","status":"pendente"}]
+
+===== READ por id (GET /reservas/1) =====
+{"id":1,"cliente":"Maria Silva","data":"2026-10-15","status":"confirmada"}
+-- id inexistente (404):
+{"erro":"Reserva nao encontrada."}
+
+===== UPDATE (PUT /reservas/2) =====
+{"id":2,"cliente":"Joao Santos","data":"2026-10-16","status":"cancelada"}
+
+===== DELETE (DELETE /reservas/1) =====
+{"mensagem":"Reserva removida com sucesso.","reserva":{"id":1,"cliente":"Maria Silva","data":"2026-10-15","status":"confirmada"}}
+-- lista final:
+[{"id":2,"cliente":"Joao Santos","data":"2026-10-16","status":"cancelada"}]
