@@ -1,0 +1,42 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: reservas-db
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-reservas}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - reservas-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-reservas}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: ./app
+    container_name: reservas-api
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_NAME: ${DB_NAME:-reservas}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - reservas-net
+
+volumes:
+  db_data:
+
+networks:
+  reservas-net:
+    driver: bridge
