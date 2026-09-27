@@ -1,0 +1,26 @@
+=== docker build da API de Reservas ===
+#10 DONE 0.7s
+
+#11 [runtime 5/6] COPY src ./src
+#11 DONE 0.1s
+
+#12 [runtime 6/6] COPY package.json ./
+#12 DONE 0.1s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.6s done
+#13 exporting manifest sha256:910c658e2f3052d6143fa87c2fb0e3500eb93c67c1c606e5fb3198f27974849f 0.0s done
+#13 exporting config sha256:cd41984a8bb9e24e5ccc351e3fa3ba5854d879414c3b5e4c277bad16cc62c408 0.0s done
+#13 exporting attestation manifest sha256:9c7287d786ded8bbc3ed2f3d4358c232bb38d06175d676c78893dc15d23decff 0.0s done
+#13 exporting manifest list sha256:f3b6252b357fc998066cc8beada9f40b311772deb5aa867281b4f889763a7311
+#13 exporting manifest list sha256:f3b6252b357fc998066cc8beada9f40b311772deb5aa867281b4f889763a7311 0.0s done
+#13 naming to docker.io/library/api-reservas:1.0 done
+#13 unpacking to docker.io/library/api-reservas:1.0
+#13 unpacking to docker.io/library/api-reservas:1.0 0.5s done
+#13 DONE 1.3s
+
+=== imagem criada ===
+WARNING: This output is designed for human readability. For machine-readable output, please use --format.
+IMAGE              ID             DISK USAGE   CONTENT SIZE   EXTRA
+api-reservas:1.0   f3b6252b357f        187MB         45.7MB        
