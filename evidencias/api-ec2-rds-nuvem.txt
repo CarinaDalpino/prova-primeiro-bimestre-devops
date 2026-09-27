@@ -1,0 +1,16 @@
+===== API DE RESERVAS RODANDO NO EC2 (conectada ao RDS na nuvem) =====
+===== HEALTH =====
+{"status":"healthy","db":"connected"}
+===== CREATE (POST /reservas) =====
+{"id":1,"cliente":"Maria Silva","data":"2026-11-01","status":"confirmada"}
+{"id":2,"cliente":"Joao Santos","data":"2026-11-02","status":"pendente"}
+===== READ todas (GET /reservas) =====
+[{"id":1,"cliente":"Maria Silva","data":"2026-11-01","status":"confirmada"},{"id":2,"cliente":"Joao Santos","data":"2026-11-02","status":"pendente"}]
+===== READ por id (GET /reservas/1) =====
+{"id":1,"cliente":"Maria Silva","data":"2026-11-01","status":"confirmada"}
+===== UPDATE (PUT /reservas/2) =====
+{"id":2,"cliente":"Joao Santos","data":"2026-11-02","status":"cancelada"}
+===== DELETE (DELETE /reservas/1) =====
+{"mensagem":"removida","reserva":{"id":1,"cliente":"Maria Silva","data":"2026-11-01","status":"confirmada"}}
+===== lista final =====
+[{"id":2,"cliente":"Joao Santos","data":"2026-11-02","status":"cancelada"}]

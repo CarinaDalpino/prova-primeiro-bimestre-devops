@@ -1,8 +1,12 @@
 # modules/rds/outputs.tf
-
 output "db_endpoint" {
-  description = "Endpoint de conexao do RDS"
+  description = "Endpoint de conexao do RDS (host:porta)"
   value       = aws_db_instance.this.endpoint
+}
+
+output "db_address" {
+  description = "Hostname do RDS (sem a porta)"
+  value       = aws_db_instance.this.address
 }
 
 output "db_name" {

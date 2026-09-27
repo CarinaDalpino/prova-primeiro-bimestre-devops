@@ -1,6 +1,7 @@
 // src/db.js
 // Conexao com PostgreSQL usando pg (Pool).
 // As credenciais vem de variaveis de ambiente (definidas no .env / docker-compose / RDS).
+// SSL e ativado via DB_SSL=true (necessario para o RDS; nao usado no Postgres local).
 
 const { Pool } = require("pg");
 
@@ -9,7 +10,8 @@ const pool = new Pool({
   port: process.env.DB_PORT || 5432,
   user: process.env.DB_USER || "postgres",
   password: process.env.DB_PASSWORD || "postgres",
-  database: process.env.DB_NAME || "reservas"
+  database: process.env.DB_NAME || "reservas",
+  ssl: process.env.DB_SSL === "true" ? { rejectUnauthorized: false } : false
 });
 
 // Cria a tabela reservas se ainda nao existir (executado no boot da API)

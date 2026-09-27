@@ -1,0 +1,22 @@
+=== terraform apply - API de Reservas na AWS (conta Academy 715425937588) ===
+Apply complete! Resources: 19 added (infra completa)
+
+=== OUTPUTS FINAIS ===
+api_url = "http://54.146.249.25:3000"
+ec2_public_ip = "54.146.249.25"
+ec2_sg_id = "sg-0d525801ce8c69fa3"
+private_subnet_ids = [
+  "subnet-07899d59396e93448",
+  "subnet-09de9b70c68d5aaa7",
+]
+public_subnet_ids = [
+  "subnet-01cd3d7b90d723f19",
+  "subnet-00f70bd344bf048ae",
+]
+rds_endpoint = "reservas-prod-db.ctoguav0jugp.us-east-1.rds.amazonaws.com:5432"
+rds_sg_id = "sg-001c86f3c26b0f304"
+vpc_id = "vpc-0beeac116af092b38"
+
+=== API RODANDO NO EC2 + CONECTADA AO RDS ===
+Health: {"status":"healthy","db":"connected"}
+CRUD completo testado (POST/GET/GET:id/PUT/DELETE) gravando no RDS - ver api-ec2-rds-nuvem.txt

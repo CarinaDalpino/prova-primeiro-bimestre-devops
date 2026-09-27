@@ -11,11 +11,14 @@ terraform {
   }
 
   # Backend S3 para state remoto (Aula 05).
-  # Descomente apos criar o bucket/tabela em infra/backend/ e rode:
+  # O bucket e a tabela DynamoDB sao criados primeiro (ver infra/backend/).
+  # No Learner Lab, a SCP bloqueia a criacao do bucket via Terraform (object lock),
+  # entao o bucket foi criado via AWS CLI com versionamento, encriptacao e block public access.
+  # Depois de criar o backend, descomente o bloco abaixo com o nome real do bucket e rode:
   #   terraform init -migrate-state
   #
   # backend "s3" {
-  #   bucket         = "reservas-tfstate-SEUSUFIXO"
+  #   bucket         = "reservas-tfstate-XXXXXXXX"
   #   key            = "prova/terraform.tfstate"
   #   region         = "us-east-1"
   #   encrypt        = true
