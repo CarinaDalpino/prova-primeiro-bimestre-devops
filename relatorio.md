@@ -27,11 +27,21 @@ Durante a prova utilizei o Kiro como ferramenta de IA e copiloto de desenvolvime
 
 Um dos principais tipos de pedido que fiz foi explicar o que eu precisava implementar e quais eram as limitações do ambiente. Por exemplo, informei que estava trabalhando no AWS Academy Learner Lab e que não poderia criar recursos próprios de IAM. Isso foi importante porque o ambiente possui algumas restrições diferentes de uma conta AWS normal.
 
+Alguns exemplos concretos dos pedidos que fiz durante a prova foram: pedi para construir a solução por partes, seguindo a ordem Git, Docker, Compose e depois a infraestrutura; colei os requisitos de cada parte do enunciado (por exemplo, a Parte 1 de Git e Versionamento e a Parte 4 de Terraform) e pedi que fosse feito exatamente conforme o enunciado da prova; reforcei que estava no AWS Academy Learner Lab e que NAO poderia criar IAM users/groups/roles, devendo usar o LabInstanceProfile; e, a cada etapa, pedi para validar tudo antes de prosseguir e antes de destruir os recursos. Ou seja, em vez de pedir "faça o projeto inteiro", eu conduzi a IA pedaço por pedaço e sempre pedindo conformidade com o que o professor exigia.
+
 O Kiro me ajudou principalmente na criação da estrutura dos módulos Terraform, nas rotas da API, no Dockerfile, no Docker Compose e na organização da infraestrutura. Ele também ajudou bastante quando eu precisava entender um erro ou pensar em uma forma de organizar determinada parte do projeto.
 
 Mas também percebi que não poderia simplesmente aceitar tudo que a IA apresentava. Durante os testes apareceram situações que só consegui identificar porque executei o código de verdade. Um exemplo foi o problema de conexão entre a aplicação no EC2 e o RDS, relacionado ao SSL do PostgreSQL. Foi necessário ajustar a configuração do pg para permitir a conexão corretamente.
 
 Outro problema aconteceu com o Remote State. O Learner Lab possui restrições que impediram que o bucket do S3 fosse criado da maneira inicialmente planejada pelo Terraform. Nesse caso, precisei adaptar a solução e criar o bucket utilizando a AWS CLI.
+
+Para deixar mais claro como guiei e corrigi a IA em cada etapa, seguem dois exemplos concretos:
+
+- Na configuração do RDS, a IA gerou a conexão do banco sem SSL. Quando testei a API rodando no EC2, o log mostrou o erro "no pg_hba.conf entry for host ... no encryption". Percebi que o RDS exige conexão criptografada, então pedi para ajustar o pool do pg adicionando ssl: { rejectUnauthorized: false }. Depois disso, o health check passou a retornar db: connected e o CRUD funcionou na nuvem.
+
+- No Remote State, a IA gerou o bucket S3 como recurso Terraform, mas ao rodar o apply deu AccessDenied em s3:GetBucketObjectLockConfiguration, por causa da SCP do Learner Lab. Percebi que o provider tenta ler o object lock e o Lab bloqueia essa ação. Adaptei a solução criando o bucket via AWS CLI (com versionamento, encriptação e block public access) e mantendo a tabela DynamoDB no Terraform.
+
+Esses dois casos mostram que eu não aceitei o que a IA gerou de primeira: testei, li os erros, entendi a causa e pedi as correções específicas.
 
 Comparando com fazer tudo manualmente, percebi que a IA economizou bastante tempo principalmente na parte de escrever códigos repetitivos e montar estruturas iniciais. Por outro lado, também percebi que ela pode gerar uma solução que parece correta, mas que precisa ser testada no ambiente real.
 
@@ -74,3 +84,13 @@ Se eu simplesmente aceitasse tudo que a IA gerasse sem revisar, poderia ter prob
 A evolução que tivemos durante o bimestre, passando por Git, Docker, Terraform e Modules, me ajudou justamente nessa parte. Como fui entendendo cada tecnologia aos poucos, consegui acompanhar melhor o que a IA estava criando e identificar quando alguma coisa não fazia sentido.
 
 No final, meu principal aprendizado foi que a IA pode acelerar bastante o desenvolvimento, mas a responsabilidade continua sendo minha. Eu preciso entender o código, revisar, testar e validar antes de executar qualquer alteração na infraestrutura.
+
+Os pedidos reais ao LONGO da prova:
+
+"vamos começar pela fase 2 na aws" / "pode começar" — para construir a solução
+"Parte 1 — Git e Versionamento..." — você colou o requisito do Git e pediu para fazer
+"sim" / "bora" / "segue" — autorizando cada parte (API, Docker, Compose, Terraform)
+"eu preciso que esteja conforme o anunciado da prova" — pedindo conformidade
+"NÃO crie IAM users/groups/roles — use LabRole/LabInstanceProfile" — você reforçou a regra do Learner Lab
+"precisamos validar tudo antes" — pedindo validação antes de destruir
+Você colou os requisitos de cada parte (Docker, Compose, Terraform) e pediu para seguir
